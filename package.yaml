@@ -10,6 +10,7 @@ dependencies:
   - split
   - containers
   - extra
+  - parsec
 
 executables:
   aoc2021:

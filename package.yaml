@@ -13,7 +13,7 @@ dependencies:
   - parsec
 
 executables:
-  aoc2021:
+  aoc2022:
     main:                Main.hs
     source-dirs:         src
     ghc-options:

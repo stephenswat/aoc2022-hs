@@ -1,13 +1,13 @@
 module Problems.Day04 (solution) where
 
 import Data.Set (Set, fromList, isSubsetOf, intersection)
-import Text.Parsec (Parsec, sepEndBy, newline)
+import Text.Parsec (sepEndBy, newline)
 import Text.Parsec.Char (char)
 
 import Common.Solution (Day)
-import Common.Parse (aocParse, integer)
+import Common.Parse (AocInput, aocParse, integer)
 
-input :: Parsec String () [(Set Integer, Set Integer)]
+input :: AocInput [(Set Integer, Set Integer)]
 input = sepEndBy ranges newline
     where
         range = do

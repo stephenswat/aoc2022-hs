@@ -2,11 +2,11 @@ module Problems.Day05 (solution) where
 
 import Data.List (transpose)
 import Data.Maybe (catMaybes)
-import Text.Parsec (Parsec, sepEndBy1, sepBy1, newline, letter, (<|>), between, count)
+import Text.Parsec (sepEndBy1, sepBy1, newline, letter, (<|>), between, count)
 import Text.Parsec.Char (char, string)
 
 import Common.Solution (Day)
-import Common.Parse (aocParse, integer)
+import Common.Parse (AocInput, aocParse, integer)
 
 data Move = Move {
     num :: Int,
@@ -14,7 +14,7 @@ data Move = Move {
     dst :: Int
 } deriving Show
 
-input :: Parsec String () ([[Char]], [Move])
+input :: AocInput ([[Char]], [Move])
 input = do
     crates <- count 8 row;
     _ <- string " 1   2   3   4   5   6   7   8   9 \n\n"

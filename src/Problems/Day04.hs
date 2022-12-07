@@ -7,7 +7,7 @@ import Text.Parsec.Char (char)
 import Common.Solution (Day)
 import Common.Parse (AocInput, aocParse, integer)
 
-input :: AocInput [(Set Integer, Set Integer)]
+input :: AocInput () [(Set Integer, Set Integer)]
 input = sepEndBy ranges newline
     where
         range = do
@@ -24,6 +24,6 @@ input = sepEndBy ranges newline
 solution :: Day
 solution = (f p1, f p2)
     where
-        f p = show . length . filter p . aocParse input
+        f p = show . length . filter p . aocParse input ()
         p1 (a, b) = a `isSubsetOf` b || b `isSubsetOf` a
         p2 (a, b) = not . null $ intersection a b

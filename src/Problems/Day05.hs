@@ -14,7 +14,7 @@ data Move = Move {
     dst :: Int
 } deriving Show
 
-input :: AocInput ([[Char]], [Move])
+input :: AocInput () ([[Char]], [Move])
 input = do
     crates <- count 8 row;
     _ <- string " 1   2   3   4   5   6   7   8   9 \n\n"
@@ -57,7 +57,7 @@ applyMove1 :: Move -> [[Char]] -> [[Char]]
 applyMove1 m i = (iterate (applyMove2 (m { num=1 })) i) !! (num $ m)
 
 solution :: Day
-solution = (show . solve1 . aocParse input, show . solve2 . aocParse input)
+solution = (show . solve1 . aocParse input (), show . solve2 . aocParse input ())
     where
         solve1 (s, m) = map head . foldl (flip applyMove1) s $ m
         solve2 (s, m) = map head . foldl (flip applyMove2) s $ m

@@ -1,6 +1,7 @@
 module Common.Parse (aocParse, integer, AocInput) where
 
-import Text.Parsec (Parsec, runParser, many1, digit)
+import Data.Maybe (isJust)
+import Text.Parsec (Parsec, runParser, many1, digit, optionMaybe, char)
 
 type AocInput s a = Parsec String s a
 
@@ -11,6 +12,7 @@ aocParse p s i = case (runParser p s "" i) of
 
 integer :: Parsec String a Integer
 integer = do {
+        s <- optionMaybe (char '-');
         q <- many1 digit;
-        return (read q)
+        return ((if isJust s then (-1) else 1) * (read q))
     }

@@ -25,9 +25,12 @@ neighbours8 (x, y) =
 neighbours9 :: Point2D -> [Point2D]
 neighbours9 p = p:(neighbours8 p)
 
-readGrid2D :: Read a => String -> Grid2D a
-readGrid2D s = fromList
-    [ ((x, y), read (c:[]))
+readGrid2DWith :: (Char -> a) -> String -> Grid2D a
+readGrid2DWith f s = fromList
+    [ ((x, y), f c)
     | (y, r) <- zip [0..] (lines s)
     , (x, c) <- zip [0..] r
     ]
+
+readGrid2D :: Read a => String -> Grid2D a
+readGrid2D = readGrid2DWith (\c -> read (c:[]))

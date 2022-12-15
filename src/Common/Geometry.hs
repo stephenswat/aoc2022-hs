@@ -34,3 +34,6 @@ readGrid2DWith f s = fromList
 
 readGrid2D :: Read a => String -> Grid2D a
 readGrid2D = readGrid2DWith (\c -> read (c:[]))
+
+manhattan :: Point2D -> Point2D -> Integer
+manhattan (x1, y1) (x2, y2) = (abs (x1 - x2)) + (abs (y1 - y2))

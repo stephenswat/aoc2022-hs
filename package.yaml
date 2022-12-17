@@ -12,6 +12,7 @@ dependencies:
   - extra
   - parsec
   - mtl
+  - pretty-show
 
 executables:
   aoc2022:

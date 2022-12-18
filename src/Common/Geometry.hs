@@ -22,6 +22,25 @@ neighbours8 (x, y) =
     , dx /= 0 || dy /= 0
     ]
 
+neighbours6 :: Point3D -> [Point3D]
+neighbours6 (x, y, z) =
+    [ (x + dx, y + dy, z + dz)
+    | dx <- [-1, 0, 1]
+    , dy <- [-1, 0, 1]
+    , dz <- [-1, 0, 1]
+    , dx /= 0 || dy /= 0 || dz /= 0
+    , (abs dx) + (abs dy) + (abs dz) == 1
+    ]
+
+neighbours26 :: Point3D -> [Point3D]
+neighbours26 (x, y, z) =
+    [ (x + dx, y + dy, z + dz)
+    | dx <- [-1, 0, 1]
+    , dy <- [-1, 0, 1]
+    , dz <- [-1, 0, 1]
+    , dx /= 0 || dy /= 0 || dz /= 0
+    ]
+
 neighbours9 :: Point2D -> [Point2D]
 neighbours9 p = p:(neighbours8 p)
 

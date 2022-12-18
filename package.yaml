@@ -13,6 +13,8 @@ dependencies:
   - parsec
   - mtl
   - pretty-show
+  - ilist
+  - lens
 
 executables:
   aoc2022:

@@ -37,18 +37,21 @@ stepBlizzard m (c, d)
         b = rotate RotateLeft . rotate RotateLeft $ d
         nc' = translate d . head . filter (\x -> notMember x m) . iterate (translate b) $ c
 
-succStates :: (Set Point2D, [Blizzard]) -> Point2DL -> Set Point2DL
-succStates (m, b) (p, l) = fromList [(c, nl c l) | c <- neighbours5 p , not . any ((== c) . fst) $ b, member c m]
+succStates :: (Set Point2D, Set Point2D, [Blizzard]) -> Point2DL -> Set Point2DL
+succStates (m, b, _) (p, l) = fromList [(c, nl c l) | c <- neighbours5 p, notMember c b, member c m]
     where
-        nl (150, 21) 0 = 1
-        nl (1, 0) 1 = 2
-        nl _ l' = l'
+        nl (150, 21) l' | l' `mod` 2 == 0 = l' + 1
+        nl (  1,  0) l' | l' `mod` 2 == 1 = l' + 1
+        nl         _ l' = l'
 
 solve :: (Point2DL -> Bool) -> Set Point2D -> [Blizzard] -> Integer
-solve a m b = bfs a (\(m', b') -> (m', fmap (stepBlizzard m') b')) succStates (m, b) (singleton ((1, 0), 0))
+solve a m b = bfs a t succStates i (singleton ((1, 0), 0))
+    where
+        t (m', _, b') = let nb = fmap (stepBlizzard m') b' in (m', fromList . map fst $ nb, nb)
+        i = (m, fromList . map fst $ b, b)
 
 solution :: Day
 solution = (
         show . uncurry (solve (== ((150, 21), 1))) . aocParse input (),
-        show . uncurry (solve (== ((150, 21), 2))) . aocParse input ()
+        show . uncurry (solve (== ((150, 21), 3))) . aocParse input ()
     )

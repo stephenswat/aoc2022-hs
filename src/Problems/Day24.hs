@@ -1,12 +1,13 @@
 module Problems.Day24 (solution) where
 
-import Data.Set (Set, fromList, singleton, map, unions, member, notMember)
+import Data.Set (Set, fromList, singleton, member, notMember)
 import Text.Parsec (sepEndBy1, many, newline, char, (<|>))
 
 import Common.Parse (AocInput, aocParse)
 import Common.Solution (Day)
 import Common.Geometry (Point2D, neighbours5)
 import Common.Cardinal (Direction (..), Rotation (..), rotate)
+import Common.Search (bfs)
 
 type Blizzard = (Point2D, Direction)
 
@@ -42,22 +43,15 @@ stepBlizzard m (c, d)
         b = rotate RotateLeft . rotate RotateLeft $ d
         nc' = translate d . head . filter (\x -> notMember x m) . iterate (translate b) $ c
 
-bfs' :: Set Point2D -> [Blizzard] -> Point2DL -> Set Point2DL
-bfs' m b (p, l) = fromList [(c, nl c l) | c <- neighbours5 p , not . any ((== c) . fst) $ b, member c m]
+succStates :: (Set Point2D, [Blizzard]) -> Point2DL -> Set Point2DL
+succStates (m, b) (p, l) = fromList [(c, nl c l) | c <- neighbours5 p , not . any ((== c) . fst) $ b, member c m]
     where
         nl (150, 21) 0 = 1
         nl (1, 0) 1 = 2
         nl _ l' = l'
 
-bfs :: (Point2DL -> Bool) -> Set Point2D -> [Blizzard] -> Set Point2DL -> Integer
-bfs a m b p
-    | any a p = 0
-    | otherwise = 1 + (bfs a m nb (unions . Data.Set.map (bfs' m nb) $ p))
-    where
-        nb = fmap (stepBlizzard m) b
-
 solve :: (Point2DL -> Bool) -> Set Point2D -> [Blizzard] -> Integer
-solve a m b = bfs a m b (singleton ((1, 0), 0))
+solve a m b = bfs a (\(m', b') -> (m', fmap (stepBlizzard m') b')) succStates (m, b) (singleton ((1, 0), 0))
 
 solution :: Day
 solution = (

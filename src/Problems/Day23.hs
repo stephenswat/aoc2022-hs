@@ -8,13 +8,7 @@ import Data.Set (Set, fromList, toList, notMember, union, difference)
 import Common.Helper (scanWhile)
 import Common.Solution (Day)
 import Common.Geometry (Point2D, neighbours8)
-import Common.Cardinal (Direction (..))
-
-translate :: Direction -> Point2D -> Point2D
-translate North (x, y) = (x, y - 1)
-translate West  (x, y) = (x - 1, y)
-translate South (x, y) = (x, y + 1)
-translate East  (x, y) = (x + 1, y)
+import Common.Cardinal (Direction (..), translate)
 
 readGrid :: String -> Set Point2D
 readGrid s = fromList [(x, y) | (y, r) <- zip [0..] (lines s), (x, c) <- zip [0..] r, c == '#']

@@ -6,18 +6,12 @@ import Text.Parsec (sepEndBy1, many, newline, char, (<|>))
 import Common.Parse (AocInput, aocParse)
 import Common.Solution (Day)
 import Common.Geometry (Point2D, neighbours5)
-import Common.Cardinal (Direction (..), Rotation (..), rotate)
+import Common.Cardinal (Direction (..), Rotation (..), rotate, translate)
 import Common.Search (bfs)
 
 type Blizzard = (Point2D, Direction)
 
 type Point2DL = (Point2D, Integer)
-
-translate :: Direction -> Point2D -> Point2D
-translate North (x, y) = (x, y - 1)
-translate West  (x, y) = (x - 1, y)
-translate South (x, y) = (x, y + 1)
-translate East  (x, y) = (x + 1, y)
 
 input :: AocInput () (Set Point2D, [Blizzard])
 input = do

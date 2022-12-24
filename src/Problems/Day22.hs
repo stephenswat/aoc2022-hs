@@ -7,7 +7,7 @@ import Text.Parsec ((<|>), sepEndBy1, many, newline, char)
 import Common.Solution (Day, notImplemented)
 import Common.Geometry (Grid2D, Point2D)
 import Common.Parse (AocInput, aocParse, integer)
-import Common.Cardinal (Direction (..), Rotation (..), rotate)
+import Common.Cardinal (Direction (..), Rotation (..), rotate, translate)
 
 data Tile = Open | Wall | Void deriving (Eq, Show)
 
@@ -75,12 +75,6 @@ initGame g m = GameState
     where
         minY = minimum [y | ((_, y), t) <- toList g, t == Open]
         minX = minimum [x | ((x, y), t) <- toList g, t == Open, y == minY]
-
-translate :: Direction -> Point2D -> Point2D
-translate North (x, y) = (x, y - 1)
-translate West  (x, y) = (x - 1, y)
-translate South (x, y) = (x, y + 1)
-translate East  (x, y) = (x + 1, y)
 
 moveForward :: Grid2D Tile -> Direction -> Point2D -> Point2D
 moveForward g d p

@@ -37,15 +37,15 @@ toDecimal :: SNAFU -> Integer
 toDecimal (SNAFU x) = sum . map (\(n, v) -> v * 5 ^ n) . zip [(0 :: Integer)..] . reverse $ x
 
 fromDecimal :: Integer -> SNAFU
-fromDecimal n = go False 32 n
+fromDecimal n = go False (32 :: Integer) n
     where
-        go f n m
-            | n == 0 = SNAFU [d]
+        go f i m
+            | i == 0 = SNAFU [d]
             | f || (d /= 0) = SNAFU (d:ds)
             | otherwise = SNAFU (ds)
             where
-                (d, r) = minimumOn (abs . snd) [(d', m - d' * 5 ^ n) | d' <- [-2, -1, 0, 1, 2]]
-                (SNAFU ds) = go (f || (d /= 0)) (n - 1) r
+                (d, r) = minimumOn (abs . snd) [(d', m - d' * 5 ^ i) | d' <- [-2, -1, 0, 1, 2]]
+                (SNAFU ds) = go (f || (d /= 0)) (i - 1) r
 
 solution :: Day
 solution = (
